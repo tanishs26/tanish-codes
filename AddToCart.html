@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping List Example</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        div {
+            margin: 10px auto;
+            max-width: 300px;
+        }
+
+        label {
+            margin-bottom: 5px;
+            display: block;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 20%; 
+            padding: 10px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #3498db;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            text-align: center; 
+            width: 100%;
+        }
+
+        li {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li span{
+          display: flex;
+          justify-content: space-around;
+        }
+
+        li span {
+            margin-left: 10px;
+            font-weight: bold;
+            color: rgb(20, 24, 24);
+        }
+    </style>
+</head>
+<body>
+    <h1>My Shopping List</h1>
+    <div>
+        <label for="item">Enter a new item:</label>
+        <input type="text" name="item" id="item" />
+    </div>
+    <div>
+        <label for="item">Add Quantity:</label>
+        <input type="number" name="quantity" id="quantity" />
+    </div>
+    <button>Add To Cart</button>
+    <ul></ul>
+
+    <script>
+        const btn = document.querySelector("button");
+        const input = document.querySelector("#item");
+        const input2 = document.querySelector("#quantity");
+        const ul = document.querySelector("ul");
+
+        btn.addEventListener("click", () => {
+            const curVal = input.value;
+            const curVal2 = input2.value;
+
+            if (!curVal || !curVal2) {
+                alert("Please enter both item name and quantity.");
+                return;
+            }
+
+            input.value = "";
+            input2.value = "";
+
+            const listItem = document.createElement("li");
+            const listSpan = document.createElement("span");
+            const listQuantity = document.createElement("span");
+            const listBtn = document.createElement("button");
+            listItem.appendChild(listSpan);
+            listSpan.textContent = `${ul.children.length + 1}. ${curVal}`; 
+            listItem.appendChild(listQuantity);
+            listQuantity.textContent = `Quantity: ${curVal2}`;
+            listItem.appendChild(listBtn);
+            listBtn.textContent = "DELETE";
+
+            ul.appendChild(listItem);
+            listBtn.addEventListener("click", () => {
+                ul.removeChild(listItem);
+                updateNumbers(); 
+            });
+        });
+
+        function updateNumbers() {
+            Array.from(ul.children).forEach((item, index) => {
+                item.querySelector('span').textContent = `${index + 1}. ${item.querySelector('span').textContent.split('. ')[1]}`;
+            });
+        }
+    </script>
+</body>
+</html>
